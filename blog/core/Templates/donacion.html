@@ -17,32 +17,7 @@
 
 <body style="background-color: #e9ecef;">
 
-    <nav class="navbar container navbar-expand-lg" style="padding: 15px; background-color: #dee2ff; margin: auto;">
-        <a class="navbar-brand" href="/html/index.html">BDG</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="index.html">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="posts.html">Publicaciones</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="donacion.html">Donar</a>
-            </li>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-success" type="submit">Buscar</button>
-            </form>
-          </ul>
-          <button class="btn btn-outline-primary" type="submit" onclick="location.href='login.html'">Logearse</button>
-          <button class="btn btn-primary" type="submit" style="margin-left: 5px;">Registrarse</button>
-        </div>
-      </div>
-    </nav>
+  {% include 'barra-navegacion.html' %}
     
 <main class="container shadow-sm" style="background-color: #f8f9fa; ">
   <br>
@@ -79,14 +54,8 @@
     <div id="errores" style="color: red;"></div>
     <div id="gracias-mensaje" style="display: none;">¡Gracias por tu donación!</div>
     </form>
-  <div class="container">
-    <footer class="py-3">
-      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-        <li class="nav-item"><a href="/html/index.html" class="nav-link px-2 text-body-secondary">Volver al inicio</a></li>
-      </ul>
-      <p class="text-center text-body-secondary">&copy; Todos los derechos reservados 2023</p>
-    </footer>
-  </div>
+
+  {% include 'footer.html' %}
   
   </main>
   </body>
