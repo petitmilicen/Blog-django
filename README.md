@@ -1,0 +1,2 @@
+# Blog-django
+Proyecto semestral
