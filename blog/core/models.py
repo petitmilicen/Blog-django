@@ -1,5 +1,4 @@
 from django.db import models
-from django.db import models
 
 class Post(models.Model):
     id_post = models.AutoField(primary_key=True)
