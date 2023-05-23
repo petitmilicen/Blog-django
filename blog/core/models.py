@@ -10,23 +10,23 @@ class Comentario(models.Model):
     texto_com = models.CharField(max_length=500)
     f_com = models.DateField()
     status_com = models.CharField(max_length=300)
-    post_id_post = models.ForeignKey('Post', models.DO_NOTHING, db_column='post_id_post')
-    usuario_id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='usuario_id_usuario')
+    post_id_post = models.ForeignKey('Post', models.DO_NOTHING)
+    usuario_id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING)
 
 class Foto(models.Model):
     id_foto = models.BigIntegerField(primary_key=True)
     nom_foto = models.CharField(max_length=30)
-    post_id_post = models.ForeignKey('Post', models.DO_NOTHING, db_column='post_id_post')
+    post_id_post = models.ForeignKey('Post', models.DO_NOTHING)
 
 class LikePost(models.Model):
     id_lp = models.BigIntegerField(primary_key=True)
-    post_id_post = models.ForeignKey('Post', models.DO_NOTHING, db_column='post_id_post')
-    like_id_like = models.ForeignKey('Likes', models.DO_NOTHING, db_column='like_id_like')
+    post_id_post = models.ForeignKey('Post', models.DO_NOTHING)
+    like_id_like = models.ForeignKey('Likes', models.DO_NOTHING)
 
 class Likes(models.Model):
     id_like = models.BigIntegerField(primary_key=True)
     id_usua = models.BigIntegerField()
-    usuario_id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='usuario_id_usuario')
+    usuario_id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING)
 
 class Post(models.Model):
     id_post = models.BigIntegerField(primary_key=True)
@@ -35,8 +35,8 @@ class Post(models.Model):
     f_crea = models.DateField()
     estatus_post = models.CharField(max_length=100)
     comentario = models.CharField(max_length=500)
-    usuario_id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='usuario_id_usuario')
-    categoria_id_catego = models.ForeignKey(Categoria, models.DO_NOTHING, db_column='categoria_id_catego')
+    usuario_id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING)
+    categoria_id_catego = models.ForeignKey(Categoria, models.DO_NOTHING)
     imagen = models.BinaryField(blank=True, null=True)
 
 class Pregunta(models.Model):
@@ -57,5 +57,5 @@ class Usuario(models.Model):
     clave = models.CharField(max_length=20)
     nickname = models.CharField(max_length=15)
     res_segu = models.CharField(max_length=50)
-    rol_id_rol = models.ForeignKey(Rol, models.DO_NOTHING, db_column='rol_id_rol')
-    pregunta_id_pregunta = models.ForeignKey(Pregunta, models.DO_NOTHING, db_column='pregunta_id_pregunta')
+    rol_id_rol = models.ForeignKey(Rol, models.DO_NOTHING)
+    pregunta_id_pregunta = models.ForeignKey(Pregunta, models.DO_NOTHING)
