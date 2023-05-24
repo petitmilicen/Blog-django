@@ -12,11 +12,13 @@ $(document).ready(function() {
       password: {
         required: true,
         minlength: 8,
+        maxlenght: 20,
         strongPassword: true
       },
       password_2: {
         required: true,
         minlength: 8,
+        maxlenght: 20,
         equalTo: "#password"
       }
     },
@@ -37,6 +39,7 @@ $(document).ready(function() {
       password_2: {
         required: "Por favor, confirme su contraseña",
         minlength: "La contraseña debe tener al menos 8 caracteres",
+        maxlength: "La contraseña debe tener un maximo de 20 caracteres",
         equalTo: "Las contraseñas no coinciden"
       }
     }
