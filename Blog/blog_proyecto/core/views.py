@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
+from .forms import *
 
 def index(request):
     publicaciones = Publicacion.objects.all()
@@ -20,7 +21,19 @@ def donacion(request):
     return render(request, 'core/donacion.html')
 
 def nueva_publicacion(request):
-    return render(request, 'core/nueva-publicacion.html')
+
+    if request.method == 'POST':
+        formulario = PublicacionForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('/')
+    else:
+        
+        formulario = PublicacionForm()
+        print(formulario.errors)
+        
+    context = {'form': formulario}
+    return render(request, 'core/nueva-publicacion.html', context)
 
 def registrarse(request):
     return render(request, 'core/registrarse.html')

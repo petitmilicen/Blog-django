@@ -23,23 +23,15 @@
   {% include 'core/barra-navegacion.html' %}
 
   <main class="container shadow-sm" style="background-color: #f8f9fa; ">
+    
+    <form method='POST' action="/">
+      {% csrf_token %}
 
-    <form id="mi-post" action="/html/index.html">
-      <div class="mb-3" style="padding-top: 20px; ">
-        <h2 style="text-align: center;">Nueva publicación</h2>
-        <label for="titulo" class="form-label">Titulo <span>(Obligatorio, al menos 20 caracteres)</span></label>
-        <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Ingresa el titulo de tu publicación...">
+      <div style="padding-top: 20px;">
+      <h2 style="text-align: center;" >Nueva publicación</h2>
       </div>
 
-      <div class="mb-3">
-        <label for="imagenPublicacion" class="form-label">Imagen</label>
-        <input type="file" class="form-control" id="imagenPublicacion" name="imagenPublicacion">
-      </div>
-
-      <div class="mb-3">
-        <label for="texto" class="form-label">Texto <span>(Obligatorio, al menos 200 caracteres)</span></label>
-        <textarea class="form-control" id="texto" rows="3" name="texto" placeholder="Ingresa el cuerpo de tu publicación..."></textarea>
-      </div>
+      {{form.as_p}}
 
       <div class="d-grid gap-2 col-6 mx-auto">
         <button class="btn btn-primary" type="submit" id="publicar">Publicar</button>

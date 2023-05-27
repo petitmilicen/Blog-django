@@ -3,8 +3,8 @@ from django.db import models
 class Publicacion(models.Model):
     id_publicacion = models.AutoField(primary_key=True)
     autor = models.ForeignKey('Usuario', on_delete=models.CASCADE)
-    categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
     titulo = models.CharField(max_length=100)
+    categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
     imagen = models.ImageField()
     texto = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
