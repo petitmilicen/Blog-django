@@ -1,10 +1,20 @@
 from django.shortcuts import render
+from .models import *
 
 def index(request):
-    return render(request, 'core/index.html')
+    publicaciones = Publicacion.objects.all()
+    
+    context = {'publicaciones':publicaciones}
+    return render(request, 'core/index.html', context)
 
-def posts(request):
+def publicaciones(request):
     return render(request, 'core/publicaciones.html')
+
+def publicacion(request, pk):
+    publicacion = Publicacion.objects.get(id_publicacion=pk)
+    
+    context = {'publicacion':publicacion}
+    return render(request, 'core/publicacion.html', context)
 
 def donacion(request):
     return render(request, 'core/donacion.html')
