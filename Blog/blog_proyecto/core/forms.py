@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from .models import Publicacion
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
+    
 class PublicacionForm(ModelForm):
     class Meta:
         model = Publicacion

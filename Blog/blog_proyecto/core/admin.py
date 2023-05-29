@@ -10,6 +10,7 @@ admin.site.register(DesL)
 admin.site.register(Like)
 admin.site.register(LikePublicacion)
 admin.site.register(Pregunta)
+admin.site.register(Usuario)
 
 class AccountInLine(admin.StackedInline):
     model = Usuario

@@ -6,9 +6,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 
+
 def index(request):
-    publicaciones = Publicacion.objects.all()
-    
+    publicaciones = Publicacion.objects.all() 
     context = {'publicaciones':publicaciones}
     return render(request, 'core/index.html', context)
 
