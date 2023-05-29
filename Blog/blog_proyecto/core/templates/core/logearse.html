@@ -29,20 +29,38 @@
           <div class="row d-flex justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
 
-              <form class="mb-3 mt-md-4" id="form-login" action="/html/index-logeado.html">   
+              <form class="mb-3 mt-md-4" action="" method="POST">   
+                {% csrf_token %}
                 <div class="mb-3">
-                  <label for="email" class="form-label ">Correo</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="nombre@ejemplo.com">
+                  <label for="email" class="form-label ">Nombre</label>
+                  <input type="text" class="form-control" placeholder="nombre" name="nombre">
                 </div>
                 <div class="mb-3">
                   <label for="password" class="form-label ">Contraseña</label>
-                  <input type="password" class="form-control" id="password" name="password" placeholder="*********">
+                  <input type="password" class="form-control" placeholder="**********" name="contrasena">
                 </div>
                 <p class="small"><a class="text-primary" href="forget-password.html">¿Olvidaste tu contraseña?</a></p>
                 <div class="d-grid">
                   <button class="btn btn-outline-dark" type="submit">Logearse</button>
                 </div>
               </form>
+
+              {% if messages %}
+              {% for mensaje in messages %}
+                {% if mensaje.tags == 'info' %}
+                <div class="alert alert-danger" role="alert">
+                  <p id="messages" style="text-align: center;"> {{ mensaje }} </p>
+                </div>
+                {% elif mensaje.tags == 'success' %}
+                <div class="alert alert-success" role="alert">
+                  <p id="messages" style="text-align: center;"> {{ mensaje }} </p>
+                </div>
+              {% endif %}
+              {% endfor %}
+              {% endif %}
+
+            
+
                   <div>
                     <p class="mb-0  text-center">¿No tienes cuenta? <a href="{% url 'registrarse' %}" class="text-primary fw-bold">Registrarse</a></p>
                   </div>

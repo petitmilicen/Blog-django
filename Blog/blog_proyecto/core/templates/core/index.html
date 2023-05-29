@@ -61,10 +61,10 @@
           {% for publicacion in publicaciones %}
           <article class="blog-post">
             <h2 class="blog-post-title mb-1">{{publicacion.titulo}}</h2>
-            <div class="text-muted fst-italic mb-1">Por {{publicacion.autor.nickname}}</div>
+            <div class="text-muted fst-italic mb-1">Por {{publicacion.autor}}</div>
             <div class="text-muted fst-italic mb-2">{{publicacion.fecha_creacion}}</div>
-            <p>{{publicacion.texto|truncatewords:30}}</p>
-            <p class="mb-0  text-left"><a href={% url 'publicacion' publicacion.id_publicacion %}> seguir leyendo...</a></p>
+            <p>{{publicacion.texto|truncatewords:50}}</p>
+            <p class="mb-0  text-left"><a href={% url 'publicacion' publicacion.id %}> seguir leyendo...</a></p>
           </article>
           <hr>
           {% endfor %}

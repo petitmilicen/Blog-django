@@ -44,25 +44,4 @@ $(document).ready(function() {
       }
     }
   });
-
-  $.validator.addMethod("strongPassword", function(value, element) {
-    return this.optional(element) || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value);
-  }, "La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial");
-
-  $.validator.addMethod("validEmail", function(value, element) {
-    return this.optional(element) || /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
-  }, "Por favor, ingrese un correo electrónico válido");
-
-  $.validator.addMethod("noSpace", function(value, element) {
-    return value.trim() !== "";
-  }, "El campo no puede contener solo espacios en blanco");
-
-  $.validator.addMethod("noSpecialCharacters", function(value, element) {
-    return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
-  }, "El campo no puede contener caracteres especiales");
-
-  $.validator.addMethod("noCommonPasswords", function(value, element) {
-    var commonPasswords = ["123456", "password", "qwerty"]; // Agrega más contraseñas comunes aquí
-    return !commonPasswords.includes(value.toLowerCase());
-  }, "La contraseña no puede ser una contraseña común");
 });

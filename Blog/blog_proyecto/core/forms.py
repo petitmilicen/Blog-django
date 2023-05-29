@@ -1,7 +1,10 @@
 from django import forms
-from .models import *
+from django.forms import ModelForm
+from .models import Publicacion
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
-class PublicacionForm(forms.ModelForm):
+class PublicacionForm(ModelForm):
     class Meta:
         model = Publicacion
         fields = ['titulo', 'categoria','texto', 'imagen']
@@ -11,3 +14,22 @@ class PublicacionForm(forms.ModelForm):
             'imagen': forms.FileInput(attrs={'class': 'form-control'}),
             'texto': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'Ingresa el cuerpo de tu publicacion'})
         }
+
+class CrearUsuarioFormulario(UserCreationForm):
+    
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password', 'placeholder':'**********'}),
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password', 'placeholder':'**********'})
+    )
+    
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'nombre'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder':'correo@ejemplo.com'})
+        }
+        
+    
