@@ -5,6 +5,7 @@ from django.contrib import admin
 class Usuario(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     imagen = models.ImageField()
+    biografia = models.TextField(null=True)
     genero = models.CharField(
         max_length=50,
         choices=[('Hombre','Hombre'),('Mujer','Mujer')]
