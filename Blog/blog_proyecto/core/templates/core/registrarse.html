@@ -58,6 +58,20 @@
                     </div>
                   </form>
 
+                  {% if messages %}
+                  {% for mensaje in messages %}
+                  {% if mensaje.tags == 'info' %}
+                    <div class="alert alert-danger" role="alert">
+                      <p id="messages" style="text-align: center;"> {{ mensaje }} </p>
+                    </div>
+                    {% elif mensaje.tags == 'success' %}
+                    <div class="alert alert-success" role="alert">
+                      <p id="messages" style="text-align: center;"> {{ mensaje }} </p>
+                    </div>
+                  {% endif %}
+                  {% endfor %}
+                  {% endif %}
+
                   <div>
                     <p class="mb-0  text-center">¿Ya tienes cuenta? <a href="{% url 'logearse' %}" class="text-primary fw-bold">Logearse</a></p>
                   </div>

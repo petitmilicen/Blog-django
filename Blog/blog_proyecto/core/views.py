@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 def index(request):
-    publicaciones = Publicacion.objects.all() 
+    publicaciones = Publicacion.objects.order_by('-fecha_creacion')[:3]
     context = {'publicaciones':publicaciones}
     return render(request, 'core/index.html', context)
 
