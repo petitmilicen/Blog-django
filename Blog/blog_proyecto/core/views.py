@@ -1,15 +1,19 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+
+from urllib.parse import unquote, quote
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import resolve, reverse_lazy, reverse
 from .models import *
 from .forms import PublicacionForm, CrearUsuarioFormulario
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-
+from django.http import HttpResponse, HttpResponseRedirect
 
 def index(request):
     publicaciones = Publicacion.objects.order_by('-fecha_creacion')[:3]
-    context = {'publicaciones':publicaciones}
+
+    context = {'publicaciones':publicaciones, 'likeado':likeado}
+
     return render(request, 'core/index.html', context)
 
 def publicaciones(request):
@@ -20,6 +24,19 @@ def publicacion(request, pk):
     
     context = {'publicacion':publicacion}
     return render(request, 'core/publicacion.html', context)
+
+def likes_index(request, pk):
+    publicacion = get_object_or_404(Publicacion, id=request.POST.get('publicacion-index-id'))
+    publicacion.likes.add(request.user)
+    
+    return HttpResponseRedirect(reverse('index'))
+
+def likes_publicacion(request, pk):
+    publicacion = get_object_or_404(Publicacion, id=request.POST.get('publicacion-id'))
+    publicacion.likes.add(request.user)
+    likeado = False
+    
+    return HttpResponseRedirect(reverse('publicacion', args=[str(pk)]))
 
 @user_passes_test(lambda user: user.is_staff, login_url=reverse_lazy('index'))
 def panel_administracion(request):

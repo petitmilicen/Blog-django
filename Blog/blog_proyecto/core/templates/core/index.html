@@ -57,7 +57,7 @@
       
       <div class="row">
         <div class="col-md-8">
-          {% for publicacion in publicaciones|slice:'3' %}
+          {% for publicacion in publicaciones %}
           <article class="blog-post">
             <h2 class="blog-post-title mb-1">{{publicacion.titulo}}</h2>
             <div class="text-muted fst-italic mb-1">Por {{publicacion.autor}}</div>
@@ -68,24 +68,44 @@
             {% if user.is_staff %}
             <div class="btn-group" role="group" aria-label="Opciones">
               <button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'publicacion' publicacion.id %}'">Seguir leyendo</button>
-              <button type="button" class="btn btn-outline-danger">
-                <i class="bi bi-heart"></i> 0
-              </button>
+
+              <form action={% url 'like-index' publicacion.id %} method="POST" class="btn-group" style="margin-left: 0px;">
+                {% csrf_token %}
+                
+                <button type="submit" class="btn btn-outline-danger" value='{{publicacion.id}}' name='publicacion-index-id'><i class="bi bi-heart"></i> {{publicacion.likes.count}}</button>
+                
+              </form> 
               <button type="button" class="btn btn-outline-warning" onclick="location.href='{% url 'editar-publicacion' publicacion.id %}'">Editar</button>
+
             </div>
-            {% else %}
+            {% elif user.is_authenticated %}
             <div class="btn-group" role="group" aria-label="Opciones">
               <button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'publicacion' publicacion.id %}'">Seguir leyendo</button>
-              <button type="button" class="btn btn-outline-danger">
-                <i class="bi bi-heart"></i> 0
-              </button>
+
+              <form action='{% url 'like-index' publicacion.id %}' method="POST" class="btn-group" style="margin-left: 0px;" id="like-form-{{publicacion.id}}">
+                {% csrf_token %}
+
+                {% if  likeado %}
+                <button type="submit" class="btn btn-outline-danger" value='{{publicacion.id}}' name='publicacion-index-id'><i class="bi bi-heart"></i> {{publicacion.likes.count}}</button>
+                {% else %}
+                <button type="submit" class="btn btn-outline-danger" value='{{publicacion.id}}' name='publicacion-index-id'><i class="bi bi-heart-fill"></i> {{publicacion.likes.count}}</button>
+                {% endif %}
+              </form> 
+
             </div>
+              {% else %}
+              <div class="btn-group" role="group" aria-label="Opciones">
+                <button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'publicacion' publicacion.id %}'">Seguir leyendo</button>
+  
+              </div>
+
             {% endif %}
-      
           </article>
+
           {% if forloop.counter != 3 %}
           <hr>
-          {% endif %}      
+          {% endif %}
+
           {% endfor %}
         </div>
         <div class="col-md-4">
@@ -101,6 +121,6 @@
       {% include 'core/footer.html' %}
 
   </main>
-  </body>
+  </body> 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </html>

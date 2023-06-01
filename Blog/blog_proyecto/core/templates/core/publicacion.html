@@ -32,16 +32,46 @@
                         <div class="text-muted fst-italic mb-2">{{publicacion.fecha_creacion}}</div>
                         <!-- Post categories-->
                         <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{publicacion.categoria}}</a>
-                    </header>
-                    <!-- Preview image figure-->
-                    <img class="img-fluid rounded " src="{{publicacion.imagen.url}}" alt="Imagen no disponible">
-                    <!-- Post content-->
-                    <section class="mb-5" style="padding-top: 10px;">
 
-                        <p>{{publicacion.texto}} </p>
+                    </header>
+
+                    {% if user.is_staff %}
+                    <div class="btn-group" role="group" aria-label="Opciones" class="btn-group" style="margin-bottom: 5px">
                     
-                    </section>
+                        <form action="{% url 'like-publicacion' publicacion.id %}" method="POST" class="btn-group" style="margin-left: 0px;">
+                            {% csrf_token %}
+                            
+                            <button type="submit" class="btn btn-outline-danger" value="{{ publicacion.id }}" name="publicacion-id">
+                                <i class="bi bi-heart"></i> {{ publicacion.likes.count }}
+                            </button>
+                        </form> 
+                        <button type="button" class="btn btn-outline-warning"  onclick="location.href='{% url 'editar-publicacion' publicacion.id %}'">Editar</button>
+                        
+                    </div>
+                    {% elif user.is_authenticated %}
+                    <div class="btn-group" role="group" aria-label="Opciones" style="margin-bottom: 5px;">
+                        <form action="{% url 'like-publicacion' publicacion.id %}" method="POST" style="margin-left: 0px;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger" value="{{ publicacion.id }}" name="publicacion-id">
+                                <i class="bi bi-heart"></i> {{ publicacion.likes.count }}
+                            </button>
+                        </form> 
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex flex-wrap align-items-start">
+                        <div class="pr-3">
+                            <img class="img-thumbnail " src="{{ publicacion.imagen.url }}" alt="Imagen no disponible">
+                        </div>
+                        <div>
+                            <section class="mb-5" style="padding-top: 10px;">
+                                <p>{{ publicacion.texto }}</p>
+                            </section>
+                        </div>
+                    </div>
+                    
                 </article>
+                
                 <!-- Comments section-->
                 <section class="mb-5">
                     <div class="card bg-light">

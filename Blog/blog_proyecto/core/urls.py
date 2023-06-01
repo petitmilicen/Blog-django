@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    
     path('', views.index, name='index'),
     path('publicaciones/', views.publicaciones, name='publicaciones'),
     path('publicacion/<str:pk>/', views.publicacion, name='publicacion'),
@@ -12,6 +13,8 @@ urlpatterns = [
     path('nueva-publicacion/', views.nueva_publicacion, name='nueva-publicacion'),
     path('editar-publicacion/<str:pk>/', views.editar_publicacion, name='editar-publicacion'),
     path('eliminar-publicacion/<str:pk>/', views.eliminar_publicacion, name='eliminar-publicacion'),
+    path('like-index/<str:pk>/', views.likes_index, name='like-index'),
+    path('like-publicacion/<str:pk>/', views.likes_publicacion, name='like-publicacion'),
     path('panel-admin', views.panel_administracion, name='panel-admin')
-
+    
 ]

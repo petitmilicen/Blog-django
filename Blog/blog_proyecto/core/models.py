@@ -21,10 +21,11 @@ class Publicacion(models.Model):
     imagen = models.ImageField()
     texto = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name='blog_publicaciones')
     estatus = models.BooleanField(default=True)
     
     def __str__(self):
-        return f'id: {self.id} titulo: {self.titulo}'
+        return f'Id: {self.id} | Titulo: {self.titulo} | Autor: {self.autor}'
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=30)
