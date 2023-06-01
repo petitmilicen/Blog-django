@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'blog_proyecto.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.oracle",
-        "NAME": "localhost:1521/xe",
+        "NAME": "localhost:1521/orcl",
         "USER": "admin_django",
         "PASSWORD": "asd123",
         'TEST':{
