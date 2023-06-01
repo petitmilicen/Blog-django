@@ -12,7 +12,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 def index(request):
     publicaciones = Publicacion.objects.order_by('-fecha_creacion')[:3]
 
-    context = {'publicaciones':publicaciones, 'likeado':likeado}
+    context = {'publicaciones':publicaciones}
 
     return render(request, 'core/index.html', context)
 
