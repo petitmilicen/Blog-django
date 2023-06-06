@@ -29,7 +29,7 @@ class Publicacion(models.Model):
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=30)
-
+    imagen = models.ImageField(default=None)
     def __str__(self):
         return self.nombre
 

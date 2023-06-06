@@ -1,23 +1,28 @@
-
-from urllib.parse import unquote, quote
 from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import resolve, reverse_lazy, reverse
+from django.urls import reverse_lazy, reverse
 from .models import *
 from .forms import PublicacionForm, CrearUsuarioFormulario
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
+from django.core.paginator import Paginator
 
 def index(request):
     publicaciones = Publicacion.objects.order_by('-fecha_creacion')[:3]
+    categorias = Categoria.objects.all()
 
-    context = {'publicaciones':publicaciones}
-
+    context = {'publicaciones':publicaciones, 'categorias':categorias}
     return render(request, 'core/index.html', context)
 
 def publicaciones(request):
-    return render(request, 'core/publicaciones.html')
+    pagina = Paginator(Publicacion.objects.all(), 3)
+    pagina_numero = request.GET.get('pagina')
+    pagina_objeto = pagina.get_page(pagina_numero)  
+    
+    context = {'publicaciones':pagina_objeto}
+    
+    return render(request, 'core/publicaciones.html', context)
 
 def publicacion(request, pk):
     publicacion = Publicacion.objects.get(id=pk)
@@ -27,15 +32,32 @@ def publicacion(request, pk):
 
 def likes_index(request, pk):
     publicacion = get_object_or_404(Publicacion, id=request.POST.get('publicacion-index-id'))
-    publicacion.likes.add(request.user)
-    
+
+    if publicacion.likes.filter(id = request.user.id).exists():
+        publicacion.likes.remove(request.user)
+    else:
+        publicacion.likes.add(request.user)
+        
     return HttpResponseRedirect(reverse('index'))
+
+def likes_publicaciones(request, pk):
+    publicacion = get_object_or_404(Publicacion, id=request.POST.get('publicaciones-id'))
+
+    if publicacion.likes.filter(id = request.user.id).exists():
+        publicacion.likes.remove(request.user)
+    else:
+        publicacion.likes.add(request.user)
+        
+    return HttpResponseRedirect(reverse('publicaciones'))
 
 def likes_publicacion(request, pk):
     publicacion = get_object_or_404(Publicacion, id=request.POST.get('publicacion-id'))
-    publicacion.likes.add(request.user)
-    likeado = False
     
+    if publicacion.likes.filter(id = request.user.id).exists():
+        publicacion.likes.remove(request.user)
+    else:
+        publicacion.likes.add(request.user)
+        
     return HttpResponseRedirect(reverse('publicacion', args=[str(pk)]))
 
 @user_passes_test(lambda user: user.is_staff, login_url=reverse_lazy('index'))

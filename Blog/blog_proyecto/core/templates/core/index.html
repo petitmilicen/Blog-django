@@ -17,30 +17,20 @@
     
     <main class="container shadow-sm" style="background-color: #f8f9fa; ">
 
-      <div class="row mb-3 d-flex align-items-center justify-content-center" style="padding-top: 20px; " >
+      <div class="row mb-3 d-flex align-items-center justify-content-center" style="padding-top: 20px;">
         <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner rounded shadow">
-            <div class="carousel-item">
-              <img src="{% static 'core/img/biblioteca.jpg' %}" class="d-block w-100 dark-image" alt="...">
+
+            {% for categoria in categorias %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <img src="{{categoria.imagen.url}}" class="d-block w-100 dark-image" alt="...">
               <div class="carousel-caption d-none d-md-block">
-                <a style="text-decoration: none; color:white" href="/Secciones/seccion-literatura.html"><h5>literatura</h5>
-                <p>Revisa la seccion de literatura.</p></a>
+                <a style="text-decoration: none; color:white" href=""><h5>{{categoria.nombre}}</h5>
+                  <p>Revisa la seccion de {{categoria.nombre}}.</p></a>
               </div>
             </div>
-            <div class="carousel-item active">
-              <img src="{% static 'core/img/cocina.jpg' %}" class="d-block w-100 dark-image" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-                <a style="text-decoration: none; color:white" href="/Secciones/seccion-cocina.html"><h5>Cocina</h5>
-                <p>Revisa la seccion de Cocina.</p></a>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <img src="{% static 'core/img/cr7.jpg' %}"  class="d-block w-100 dark-image" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-                <a style="text-decoration: none; color:white" href="/Secciones/seccion-deportes.html"><h5>Deportes</h5>
-                <p>Revisa la seccion de deportes.</p></a>
-              </div>
-            </div>
+            {% endfor %}
+            
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -72,7 +62,7 @@
               <form action={% url 'like-index' publicacion.id %} method="POST" class="btn-group" style="margin-left: 0px;">
                 {% csrf_token %}
                 
-                <button type="submit" class="btn btn-outline-danger" value='{{publicacion.id}}' name='publicacion-index-id'><i class="bi bi-heart"></i> {{publicacion.likes.count}}</button>
+                <button type="submit" class="btn btn-outline-danger" value='{{publicacion.id}}' name='publicacion-index-id'><i class="bi bi-heart-fill"></i> {{publicacion.likes.count}}</button>
                 
               </form> 
               <button type="button" class="btn btn-outline-warning" onclick="location.href='{% url 'editar-publicacion' publicacion.id %}'">Editar</button>
@@ -84,12 +74,7 @@
 
               <form action='{% url 'like-index' publicacion.id %}' method="POST" class="btn-group" style="margin-left: 0px;" id="like-form-{{publicacion.id}}">
                 {% csrf_token %}
-
-                {% if  likeado %}
-                <button type="submit" class="btn btn-outline-danger" value='{{publicacion.id}}' name='publicacion-index-id'><i class="bi bi-heart"></i> {{publicacion.likes.count}}</button>
-                {% else %}
-                <button type="submit" class="btn btn-outline-danger" value='{{publicacion.id}}' name='publicacion-index-id'><i class="bi bi-heart-fill"></i> {{publicacion.likes.count}}</button>
-                {% endif %}
+                <button type="submit" class="btn btn-outline-danger" value='{{publicacion.id}}' name='publicacion-index-id'><i class="bi bi-heart-fill"></i> {{publicacion.likes.count}}</button>   
               </form> 
 
             </div>

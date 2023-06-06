@@ -15,6 +15,7 @@ urlpatterns = [
     path('eliminar-publicacion/<str:pk>/', views.eliminar_publicacion, name='eliminar-publicacion'),
     path('like-index/<str:pk>/', views.likes_index, name='like-index'),
     path('like-publicacion/<str:pk>/', views.likes_publicacion, name='like-publicacion'),
+    path('like-publicaciones/<str:pk>/', views.likes_publicaciones, name='like-publicaciones'),
     path('panel-admin', views.panel_administracion, name='panel-admin')
     
 ]

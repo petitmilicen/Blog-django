@@ -25,66 +25,82 @@
   <div class="row" style="padding-top: 20px;">
     <div class="col">
 
-      <article class="post" id="diego1">
-        <h2 class="blog-post-title mb-1">La huella dejada por un clásico de la literatura en la obra de autores modernos</h2>
-        <p class="blog-post-meta">Febrero 3, 2023 por <a href="">Diego Venegas</a></p>
+      {% for publicacion in publicaciones %}
+      <article class="blog-post">
+        <h2 class="blog-post-title mb-1">{{publicacion.titulo}}</h2>
+        <div class="text-muted fst-italic mb-1">Por {{publicacion.autor}}</div>
+        <div class="text-muted fst-italic mb-2">{{publicacion.fecha_creacion}}</div>
+        <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{publicacion.categoria}}</a>
+        <p>{{publicacion.texto|truncatewords:50}}</p>
+  
+        {% if user.is_staff %}
+        <div class="btn-group" role="group" aria-label="Opciones">
+          <button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'publicacion' publicacion.id %}'">Seguir leyendo</button>
 
-        <p>No quiero dejar de recordar a dos escritores de los que se acaba de conmemorar el bicentenario de su nacimiento: el ruso Fiódor Dostoyevski y el francés Gustave Flaubert. Entre ellos se llevaban tan solo un...</p>
-        <p class="mb-0  text-left"><a href="/html/Publicación Diego/Publicacion-1.html"> seguir leyendo...</a></p>
-        <br>
-        <button type="button" class="borrar-post btn btn-danger">Borrar post</button>
+          <form action={% url 'like-publicaciones' publicacion.id %} method="POST" class="btn-group" style="margin-left: 0px;">
+            {% csrf_token %}
+            
+            <button type="submit" class="btn btn-outline-danger" value='{{publicacion.id}}' name='publicaciones-id'><i class="bi bi-heart-fill"></i> {{publicacion.likes.count}}</button>
+            
+          </form> 
+          <button type="button" class="btn btn-outline-warning" onclick="location.href='{% url 'editar-publicacion' publicacion.id %}'">Editar</button>
+
+        </div>
+        {% elif user.is_authenticated %}
+        <div class="btn-group" role="group" aria-label="Opciones">
+          <button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'publicacion' publicacion.id %}'">Seguir leyendo</button>
+
+          <form action='{% url 'like-publicaciones' publicacion.id %}' method="POST" class="btn-group" style="margin-left: 0px;" id="like-form-{{publicacion.id}}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger" value='{{publicacion.id}}' name='publicaciones-id'><i class="bi bi-heart-fill"></i> {{publicacion.likes.count}}</button>   
+          </form> 
+
+        </div>
+          {% else %}
+          <div class="btn-group" role="group" aria-label="Opciones">
+            <button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'publicacion' publicacion.id %}'">Seguir leyendo</button>
+
+          </div>
+
+        {% endif %}
       </article>
+
+      {% if forloop.counter != 3 %}
       <hr>
+      {% endif %}
 
-      <article class="post" id="dan1">
-        <h2 class="blog-post-title mb-1">Uno de los mejores platos de la comida italiana</h2>
-        <p class="blog-post-meta">Marzo 27, 2023 por <a href="">Danilo Luque Rojas</a></p>
+      {% endfor %}
 
-        <p>¿Quires sorprender a tu pareja, amigo, amiga, hermano , hermana, padres, etc? Puedes hacerlo con este espectacular risotto de champiñones. Un espectacualar platillo de la cocina italiana traido directamente a tu mesa.</p>
-        <p class="mb-0  text-left"><a href="Publicación Danilo/post1D.html" > seguir leyendo...</a></p>
-        <br>
-        <button type="button" class="borrar-post btn btn-danger">Borrar post</button>
-      </article>
-
-      <hr>
-
-      <article class="post" id="rodrigo1">
-        <h2 class="blog-post-title mb-1">El tremendo presente de Humberto Suazo</h2>
-        <p class="blog-post-meta">Marzo 25, 2023 por <a href="">Rodrigo Freire Galindo</a></p>
-
-        <p>El regreso de Humberto Suazo a San Luis ha sido espectacular. El delantero aterrizó en la Primera B, y rápidamente se convirtió en el goleador de la categoría</p>
-        <p class="mb-0  text-left"><a href="/html/Publicación Rodrigo/publi_1.html"> Seguir leyendo...</a></p>
-        <br>
-        <button type="button" class="borrar-post btn btn-danger">Borrar post</button>
-      </article>
-    </div>
-
-    <hr>
-
-    <article class="post" id="diego2">
-      <h2 class="blog-post-title mb-1">Gabriela Mistral: única mujer iberoamericana que ha obtenido el Premio Nobel</h2>
-      <p class="blog-post-meta">Febrero 10, 2023 por <a href="">Diego Venegas</a></p>
-
-      <p>Hace sesenta años, un diez de diciembre, Gabriela Mistral recibió el primer Premio Nobel de Literatura otorgado en el Nuevo Mundo. Es hasta la fecha la única mujer que...</p>
-      <p class="mb-0  text-left"><a href="/html/Publicación Diego/Publicacion-2.html"> seguir leyendo...</a></p>
-      <br>
-      <button type="button" class="borrar-post btn btn-danger">Borrar post</button>
-      <br><br>
-    </article>
-    <hr>
-    
-
-    <nav aria-label="Page navigation example">
+      <nav aria-label="Page navigation example">
         <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="/html/posts.html">Anterior</a></li>
-          <li class="page-item"><a class="page-link" href="posts.html">1</a></li>
-          <li class="page-item"><a class="page-link" href="posts_2.html">2</a></li>
-          <li class="page-item"><a class="page-link" href="posts_3.html">3</a></li>
-          <li class="page-item"><a class="page-link" href="posts_2.html">Siguiente</a></li>
+          {% if publicaciones.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?pagina={{ publicaciones.previous_page_number }}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Anterior</span>
+            </a>
+          </li>
+          {% endif %}
+      
+          {% for numero_pagina in publicaciones.paginator.page_range %}
+          <li class="page-item{% if publicaciones.number == numero_pagina %} active{% endif %}">
+            <a class="page-link" href="?pagina={{ numero_pagina }}">{{ numero_pagina }}</a>
+          </li>
+          {% endfor %}
+      
+          {% if publicaciones.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?pagina={{ publicaciones.next_page_number }}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Siguiente</span>
+            </a>
+          </li>
+          {% endif %}
         </ul>
       </nav>
-    
-      {% include 'core/footer.html' %}
+      
+
+    {% include 'core/footer.html' %}
       
   </div>
   </main>
