@@ -20,18 +20,22 @@ def publicaciones(request):
     pagina_numero = request.GET.get('pagina')
     pagina_objeto = pagina.get_page(pagina_numero)  
     
+    request.session['pagina_numero'] = pagina_numero
     context = {'publicaciones':pagina_objeto}
     
     return render(request, 'core/publicaciones.html', context)
 
 def publicacion(request, pk):
     publicacion = Publicacion.objects.get(id=pk)
-    
+
     context = {'publicacion':publicacion}
     return render(request, 'core/publicacion.html', context)
 
+#Sistema de likes
+@login_required
 def likes_index(request, pk):
     publicacion = get_object_or_404(Publicacion, id=request.POST.get('publicacion-index-id'))
+    
 
     if publicacion.likes.filter(id = request.user.id).exists():
         publicacion.likes.remove(request.user)
@@ -40,6 +44,7 @@ def likes_index(request, pk):
         
     return HttpResponseRedirect(reverse('index'))
 
+@login_required
 def likes_publicaciones(request, pk):
     publicacion = get_object_or_404(Publicacion, id=request.POST.get('publicaciones-id'))
 
@@ -48,8 +53,12 @@ def likes_publicaciones(request, pk):
     else:
         publicacion.likes.add(request.user)
         
-    return HttpResponseRedirect(reverse('publicaciones'))
+    pagina_numero = request.session.get('pagina_numero', '')
+    url_redireccion = reverse('publicaciones') + f'?pagina={pagina_numero}'
 
+    return HttpResponseRedirect(url_redireccion)   
+
+@login_required
 def likes_publicacion(request, pk):
     publicacion = get_object_or_404(Publicacion, id=request.POST.get('publicacion-id'))
     
@@ -144,3 +153,8 @@ def cerrar_sesion(request):
     logout(request)
     return redirect('logearse')
 
+def perfil(request, pk):
+    usuario = Usuario.objects.get(id=pk)
+    
+    context = {'usuario':usuario}
+    return render(request, 'core/perfil.html', context)

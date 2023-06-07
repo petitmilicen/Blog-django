@@ -6,10 +6,6 @@ from django.contrib.auth.admin import UserAdmin
 admin.site.register(Publicacion)
 admin.site.register(Categoria)
 admin.site.register(Comentario)
-admin.site.register(DesL)
-admin.site.register(Like)
-admin.site.register(LikePublicacion)
-admin.site.register(Pregunta)
 admin.site.register(Usuario)
 
 class AccountInLine(admin.StackedInline):
