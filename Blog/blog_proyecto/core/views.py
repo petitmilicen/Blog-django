@@ -36,7 +36,6 @@ def publicacion(request, pk):
 def likes_index(request, pk):
     publicacion = get_object_or_404(Publicacion, id=request.POST.get('publicacion-index-id'))
     
-
     if publicacion.likes.filter(id = request.user.id).exists():
         publicacion.likes.remove(request.user)
     else:
@@ -86,7 +85,7 @@ def nueva_publicacion(request):
         formulario = PublicacionForm(request.POST, request.FILES)
         if formulario.is_valid():
             publicacion = formulario.save(commit=False)
-            publicacion.autor = User.objects.get(username=request.user)
+            publicacion.autor = Usuario.objects.get(username=request.user)
 
             formulario.save()
             return redirect('panel-admin')
@@ -128,6 +127,7 @@ def registrarse(request):
         if formulario.is_valid():
             formulario.save()
             usuario = formulario.cleaned_data.get('username')
+            
             messages.success(request, 'La cuenta fue creada para' + ' ' + usuario)
             return redirect('logearse')
 
@@ -155,6 +155,8 @@ def cerrar_sesion(request):
 
 def perfil(request, pk):
     usuario = Usuario.objects.get(id=pk)
+    comentarios = Comentario.objects.filter(autor=usuario)
+    publicaciones = Publicacion.objects.filter(autor=usuario)
     
-    context = {'usuario':usuario}
+    context = {'usuario':usuario, 'publicaciones':publicaciones, 'comentarios':comentarios}
     return render(request, 'core/perfil.html', context)

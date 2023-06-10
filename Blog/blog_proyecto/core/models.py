@@ -1,29 +1,29 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
-class Usuario(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Usuario(AbstractUser):
     imagen = models.ImageField()
-    biografia = models.TextField(null=True)
+    biografia = models.TextField()
     genero = models.CharField(
         max_length=50,
         choices=[('Hombre','Hombre'),('Mujer','Mujer')]
     )
     rol = models.CharField(
     max_length=50,
-    choices=[('Admin','Admin'),('Lector','Lector')],
-    default=None)
-    def __str__(self):
-        return self.user.username
-
+    choices=[('Admin','Admin'),('Lector','Lector')], default='Lector') 
+    
+    username = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(unique=True)
+    fecha_registro = models.DateTimeField(auto_now_add=True)
+    
 class Publicacion(models.Model):
-    autor = models.ForeignKey(User, on_delete=models.CASCADE)
+    autor = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=100)
     categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
     imagen = models.ImageField()
     texto = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    likes = models.ManyToManyField(User, related_name='blog_publicaciones')
+    likes = models.ManyToManyField(Usuario, related_name='blog_publicaciones')
     estatus = models.BooleanField(default=True)
     
     def __str__(self):
@@ -36,7 +36,7 @@ class Categoria(models.Model):
         return self.nombre
 
 class Comentario(models.Model):
-    usuario =  models.ForeignKey(Usuario, related_name='usuario', on_delete=models.CASCADE, default=None)
+    autor =  models.ForeignKey(Usuario, related_name='usuario', on_delete=models.CASCADE, default=None)
     publicacion = models.ForeignKey(Publicacion, related_name='comentarios',  on_delete=models.CASCADE)
     texto = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
