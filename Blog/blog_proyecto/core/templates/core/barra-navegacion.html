@@ -22,20 +22,20 @@
       </ul>
       
       {% if user.is_authenticated %}
-        {% if user.is_staff %}
+        {% if user.is_superuser or user.is_staff %}
 
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            {{user.username}}
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'perfil' user.id %}">Mi perfil</a></li>
-            <li><a class="dropdown-item" href="{% url 'nueva-publicacion' %}">Publicar</a></li>
-            <li><a class="dropdown-item" href="{% url 'panel-admin' %}">Administrar</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{% url 'cerrar-sesion' %}">Cerrar sesion</a></li>
-          </ul>
-        </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              {{user.username}}
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'perfil' user.id %}">Mi perfil</a></li>
+              <li><a class="dropdown-item" href="{% url 'nueva-publicacion' %}">Publicar</a></li>
+              <li><a class="dropdown-item" href="{% url 'panel-admin' %}">Administrar</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'cerrar-sesion' %}">Cerrar sesion</a></li>
+            </ul>
+          </div>
 
         {% else %}
 

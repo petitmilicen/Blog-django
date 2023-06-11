@@ -80,10 +80,10 @@
                                 {% for comentario in publicacion.comentarios.all %}
                                 <div class="d-flex mb-4">
                                     <div class="flex-shrink-0">
-                                        <img class="rounded-circle" width="50px" height="50px" src="{{ comentario.usuario.imagen.url }}" alt="..." />
+                                        <img class="rounded-circle" width="50px" height="50px" src="{{ comentario.autor.imagen.url }}" alt="..." />
                                     </div>
                                     <div class="ms-3">
-                                        <div class="fw-bold">{{ comentario.usuario.user.username }}</div>
+                                        <div class="fw-bold">{{ comentario.autor.username }}</div>
                                         <p>{{ comentario.texto }}</p> 
                                     </div>
                                 </div>

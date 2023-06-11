@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Publicacion
+from .models import Comentario, Publicacion
 from django.contrib.auth.forms import UserCreationForm
 from .models import Usuario
     
@@ -32,4 +32,7 @@ class CrearUsuarioFormulario(UserCreationForm):
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder':'correo@ejemplo.com'})
         }
         
-    
+class ComentarioForm(forms.ModelForm):
+    class Meta:
+        model = Comentario
+        fields = ['texto']

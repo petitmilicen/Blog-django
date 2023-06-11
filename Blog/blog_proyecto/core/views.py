@@ -70,8 +70,12 @@ def likes_publicacion(request, pk):
 
 @user_passes_test(lambda user: user.is_staff, login_url=reverse_lazy('index'))
 def panel_administracion(request):
-    publicaciones = Publicacion.objects.all() 
-    context = {'publicaciones':publicaciones}
+    publicaciones = Publicacion.objects.all()
+    comentarios = Comentario.objects.all()
+    usuarios = Usuario.objects.all()
+    
+    
+    context = {'publicaciones':publicaciones,'comentarios':comentarios,'usuarios':usuarios}
     return render(request, 'core/panel-admin.html', context)
 
 def donacion(request):

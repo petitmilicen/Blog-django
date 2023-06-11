@@ -31,7 +31,7 @@ class Publicacion(models.Model):
     estatus = models.BooleanField(default=True)
     
     def __str__(self):
-        return f'Id: {self.id} | Titulo: {self.titulo} | Autor: {self.autor}'
+        return self.titulo
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=30)
