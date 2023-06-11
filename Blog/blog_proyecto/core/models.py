@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class Usuario(AbstractUser):
-    imagen = models.ImageField()
+    imagen = models.ImageField(default='default.jpg')
     biografia = models.TextField()
     genero = models.CharField(
         max_length=50,
@@ -15,6 +15,10 @@ class Usuario(AbstractUser):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     fecha_registro = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.username
+    
     
 class Publicacion(models.Model):
     autor = models.ForeignKey(Usuario, on_delete=models.CASCADE)

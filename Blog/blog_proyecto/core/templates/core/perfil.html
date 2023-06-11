@@ -64,7 +64,7 @@
                               <a href={% url 'publicacion' publicacion.id %}>
                                 <img src="{{ publicacion.imagen.url }}" alt="" class="w-100 rounded-3">
                                 <div class="image-overlay d-flex align-items-center justify-content-center rounded-3">
-                                  <span class="image-title text-truncate"></span>
+                                  <span class="image-title text-truncate">{{publicacion.titulo}}</span>
                                 </div>
                               </a>
                             </div>
