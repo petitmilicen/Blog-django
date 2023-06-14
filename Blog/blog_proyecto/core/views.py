@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy, reverse
 from .models import *
-from .forms import PublicacionForm, CrearUsuarioFormulario
+from .forms import PublicacionForm, CrearUsuarioFormulario, ComentarioForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -27,8 +27,19 @@ def publicaciones(request):
 
 def publicacion(request, pk):
     publicacion = Publicacion.objects.get(id=pk)
+    formulario_comentario = ComentarioForm()
 
-    context = {'publicacion':publicacion}
+    if request.method == 'POST':
+        formulario_comentario = ComentarioForm(request.POST)
+        if formulario_comentario.is_valid():
+            comentario = formulario_comentario.save(commit=False)
+            comentario.autor = Usuario.objects.get(username=request.user)
+            comentario.publicacion = Publicacion.objects.get(id=pk)
+            
+            formulario_comentario.save()
+            return HttpResponseRedirect(reverse('publicacion', args=[str(pk)]))
+
+    context = {'publicacion':publicacion, 'formulario_comentario':formulario_comentario}
     return render(request, 'core/publicacion.html', context)
 
 #Sistema de likes
@@ -36,7 +47,7 @@ def publicacion(request, pk):
 def likes_index(request, pk):
     publicacion = get_object_or_404(Publicacion, id=request.POST.get('publicacion-index-id'))
     
-    if publicacion.likes.filter(id = request.user.id).exists():
+    if publicacion.likes.filter(id=request.user.id).exists():
         publicacion.likes.remove(request.user)
     else:
         publicacion.likes.add(request.user)

@@ -27,7 +27,7 @@ class Publicacion(models.Model):
     imagen = models.ImageField()
     texto = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    likes = models.ManyToManyField(Usuario, related_name='blog_publicaciones')
+    likes = models.ManyToManyField(Usuario, related_name='blog_publicaciones', blank=True)
     estatus = models.BooleanField(default=True)
     
     def __str__(self):

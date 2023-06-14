@@ -29,10 +29,13 @@ class CrearUsuarioFormulario(UserCreationForm):
         fields = ['username', 'email']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'nombre'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder':'correo@ejemplo.com'})
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder':'correo@ejemplo.com', 'id':'floatingTextarea2'})
         }
         
 class ComentarioForm(forms.ModelForm):
     class Meta:
         model = Comentario
         fields = ['texto']
+        widgets = {
+            'texto': forms.TextInput(attrs={'class': 'form-control form-control-lg', 'placeholder':'Añade un comentario...'}),
+        }
