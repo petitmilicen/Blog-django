@@ -91,6 +91,7 @@
                                     </div>
                                     <div class="ms-3">
                                         <div class="fw-bold"><a href="{% url 'perfil' comentario.autor.id %}" style="text-decoration: none; color: inherit;">{{ comentario.autor.username }}</a></div>
+                                        <p class="text-muted" style="font-size: 65%;"> {{comentario.fecha_creacion|date:"d/m/Y"}}</p> 
                                         <p>{{ comentario.texto }}</p> 
                                     </div>
                                 </div>
