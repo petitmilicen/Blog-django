@@ -1,9 +1,9 @@
 $(document).ready(function() {
     $('#form-login').validate({
       rules: {
-        email: {
+        nomobre: {
           required: true,
-          email: true
+          nomobre: true
         },
         password: {
           required: true,
@@ -11,9 +11,9 @@ $(document).ready(function() {
         },
       },
       messages: {
-        email: {
+        nomobre: {
           required: "Por favor, ingrese su correo electrónico",
-          email: "Por favor, ingrese un correo electrónico válido"
+          nomobre: "Por favor, ingrese un correo electrónico válido"
         },
         password: {
           required: "Por favor, ingrese una contraseña",

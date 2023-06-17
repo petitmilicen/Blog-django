@@ -25,13 +25,17 @@
                       <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
                         <img src="{{usuario.imagen.url}}" alt="" class="img-fluid img-thumbnail mt-4 mb-2"style="width: 150px; z-index: 1">
 
-                        <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"style="z-index: 1;">Editar perfil</button>
+                        {% if request.user == usuario %}
+                        <a class="btn btn-outline-dark" data-mdb-ripple-color="dark"style="z-index: 1;" >Editar perfil</a>
+                        {% endif %}
 
                       </div>
+
                       <div class="ms-3" style="margin-top: 130px;">
                         <h5>{{usuario.username}}</h5>
                         <p>{{usuario.rol}}</p>
                       </div>
+
                     </div>
                     <div class="p-4 text-black" style="background-color: #f8f9fa;">
                       <div class="d-flex justify-content-end text-center py-1">

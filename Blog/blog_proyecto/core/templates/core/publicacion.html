@@ -26,7 +26,7 @@
                     <header class="mb-4">
                         
                         <h1 class="fw-bolder mb-1">{{publicacion.titulo}}</h1>
-                        <div class="text-muted fst-italic mb-1">Por {{publicacion.autor}} <i class="bi bi-person"></i></div>
+                        <div class="mb-1">Por <a href={% url 'perfil' publicacion.autor.id %} style="text-decoration: none; color: inherit;">{{publicacion.autor}}</a> <i class="bi bi-person"></i></div>
                         <div class="text-muted fst-italic mb-2">{{publicacion.fecha_creacion}} <i class="bi bi-calendar"></i></div>
                         <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{publicacion.categoria}} </a>
 
@@ -74,14 +74,21 @@
                         <div class="card-body">
 
                             <h4>{{publicacion.comentarios.count}} Comentarios</h4>
-                            <form class="mb-4" method='POST'>
-                                {% csrf_token %}
-                                <div class="form-floating">
-                                    {{formulario_comentario.texto}}   
-                                    <label for="floatingTextarea2">Añade un comentario...</label>    
+
+                            {% if user.is_authenticated %}
+                                <form class="mb-4" method='POST'>
+                                    {% csrf_token %}
+                                    <div class="form-floating">
+                                        {{formulario_comentario.texto}}   
+                                        <label for="floatingTextarea2">Añade un comentario...</label>    
+                                    </div>
+                                    <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="submit">Comentar</button></div>
+                                </form>
+                            {% else %}
+                                <div class="my-3">
+                                    <a href="{% url 'logearse' %}" class="btn btn-primary">Inicia sesión para comentar</a></p>                 
                                 </div>
-                                <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="submit">Comentar</button></div>
-                            </form>
+                            {% endif %}
 
                             {% if publicacion.comentarios.all %}
                                 {% for comentario in publicacion.comentarios.all %}
@@ -107,7 +114,7 @@
                     </div>
                 </section>
 
-                <p class="mb-0  text-left"><a href="/html/posts.html" class="btn btn-primary"> Volver</a></p>
+                <a href="{% url 'publicaciones' %}" class="btn btn-warning">Ver mas...</a>
             </div>
 
   
