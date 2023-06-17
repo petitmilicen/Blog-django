@@ -5,6 +5,7 @@ urlpatterns = [
     
     path('', views.index, name='index'),
     path('perfil/<str:pk>/', views.perfil, name='perfil'),
+    path('editar-perfil/<str:pk>/', views.editar_perfil, name='editar-perfil'),
     path('publicaciones/', views.publicaciones, name='publicaciones'),
     path('publicacion/<str:pk>/', views.publicacion, name='publicacion'),
     path('donacion/', views.donacion, name='donacion'),

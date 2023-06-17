@@ -175,3 +175,11 @@ def perfil(request, pk):
     
     context = {'usuario':usuario, 'publicaciones':publicaciones, 'comentarios':comentarios}
     return render(request, 'core/perfil.html', context)
+
+def editar_perfil(request, pk):
+    usuario = Usuario.objects.get(id=pk)
+    comentarios = Comentario.objects.filter(autor=usuario)
+    publicaciones = Publicacion.objects.filter(autor=usuario)
+    
+    context = {'usuario':usuario, 'publicaciones':publicaciones, 'comentarios':comentarios}
+    return render(request, 'core/editar-perfil.html', context)
