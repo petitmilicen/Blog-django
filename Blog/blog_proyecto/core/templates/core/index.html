@@ -23,9 +23,9 @@
 
             {% for categoria in categorias %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-              <img src="{{categoria.imagen.url}}" class="d-block w-100 dark-image" alt="...">
+              <img src="{{categoria.imagen.url}}" class="d-block w-100 dark-image" alt="{{categoria.nombre}}">
               <div class="carousel-caption d-none d-md-block">
-                <a style="text-decoration: none; color:white" href=""><h5>{{categoria.nombre}}</h5>
+                <a style="text-decoration: none; color:white" href="{% url 'publicaciones' %}"><h5>{{categoria.nombre}}</h5>
                   <p>Revisa la seccion de {{categoria.nombre}}.</p></a>
               </div>
             </div>
