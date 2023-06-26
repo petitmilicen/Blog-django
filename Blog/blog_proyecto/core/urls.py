@@ -1,11 +1,13 @@
 from django.urls import path
+from core.views import *
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    
     path('', views.index, name='index'),
     path('perfil/<str:pk>/', views.perfil, name='perfil'),
-    path('editar-perfil/<str:pk>/', views.editar_perfil, name='editar-perfil'),
+    path('editar-perfil/<int:pk>/', PerfilUpdateView.as_view(), name='editar-perfil'),
     path('publicaciones/', views.publicaciones, name='publicaciones'),
     path('publicacion/<str:pk>/', views.publicacion, name='publicacion'),
     path('donacion/', views.donacion, name='donacion'),
@@ -18,6 +20,5 @@ urlpatterns = [
     path('like-index/<str:pk>/', views.likes_index, name='like-index'),
     path('like-publicacion/<str:pk>/', views.likes_publicacion, name='like-publicacion'),
     path('like-publicaciones/<str:pk>/', views.likes_publicaciones, name='like-publicaciones'),
-    path('panel-admin', views.panel_administracion, name='panel-admin')
-    
+    path('panel-admin/', views.panel_administracion, name='panel-admin'),
 ]

@@ -55,7 +55,7 @@ ROOT_URLCONF = 'blog_proyecto.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'core.templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'blog_proyecto', 'core', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,6 +68,8 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'blog_proyecto.wsgi.application'
 
 
@@ -78,8 +80,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.oracle",
         "NAME": "localhost:1521/xe",
-        "USER": "admin_django",
-        "PASSWORD": "asd123",
+        "USER": "adminDjango",
+        "PASSWORD": "123456",
         'TEST':{
             'USER': 'default_test',
             'TBLSPACE': 'default_test_tbls',
@@ -124,7 +126,13 @@ AUTH_USER_MODEL = 'core.Usuario'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

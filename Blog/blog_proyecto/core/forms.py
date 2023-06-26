@@ -3,6 +3,8 @@ from django.forms import ModelForm
 from .models import Comentario, Publicacion
 from django.contrib.auth.forms import UserCreationForm
 from .models import Usuario
+from django.forms.widgets import ClearableFileInput
+import re
     
 class PublicacionForm(ModelForm):
     class Meta:
@@ -39,3 +41,20 @@ class ComentarioForm(forms.ModelForm):
         widgets = {
             'texto': forms.TextInput(attrs={'class': 'form-control form-control-lg', 'placeholder':'Añade un comentario...'}),
         }
+        
+class EditarPerfilForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ['username', 'imagen', 'biografia', 'genero']
+        widgets = {
+            'imagen': ClearableFileInput(),
+            'biografia': forms.Textarea(attrs={'class': 'form-control'}),
+            'genero': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        pattern = r'^[a-zA-Z0-9]+$'  # Expresión regular para permitir solo letras mayúsculas, minúsculas y números
+        if not re.match(pattern, username):
+            raise forms.ValidationError('El nombre de usuario solo puede contener letras y números. SIN ESPACIOS')
+        return username
