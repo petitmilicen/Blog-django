@@ -7,6 +7,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
+from django.views.generic.edit import UpdateView
+from django.contrib.auth.models import User
+from .forms import EditarPerfilForm
+from django.urls import reverse_lazy
+
 
 def index(request):
     publicaciones = Publicacion.objects.order_by('-fecha_creacion')[:3]
@@ -176,10 +181,11 @@ def perfil(request, pk):
     context = {'usuario':usuario, 'publicaciones':publicaciones, 'comentarios':comentarios}
     return render(request, 'core/perfil.html', context)
 
-def editar_perfil(request, pk):
-    usuario = Usuario.objects.get(id=pk)
-    comentarios = Comentario.objects.filter(autor=usuario)
-    publicaciones = Publicacion.objects.filter(autor=usuario)
-    
-    context = {'usuario':usuario, 'publicaciones':publicaciones, 'comentarios':comentarios}
-    return render(request, 'core/editar-perfil.html', context)
+#---Editar Perfil
+class PerfilUpdateView(UpdateView):
+    model = Usuario
+    form_class = EditarPerfilForm
+    template_name = 'core/editar-perfil.html'
+
+    def get_success_url(self):
+        return reverse_lazy('perfil', kwargs={'pk': self.kwargs['pk']})
