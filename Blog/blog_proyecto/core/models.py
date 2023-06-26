@@ -13,7 +13,6 @@ class Usuario(AbstractUser):
         choices=[('Admin', 'Admin'), ('Lector', 'Lector')],
         default='Lector'
     )
-    foto_perfil = models.ImageField(upload_to='perfil', default='default.jpg')
 
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)

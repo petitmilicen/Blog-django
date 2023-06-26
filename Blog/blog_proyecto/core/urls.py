@@ -21,4 +21,7 @@ urlpatterns = [
     path('like-publicacion/<str:pk>/', views.likes_publicacion, name='like-publicacion'),
     path('like-publicaciones/<str:pk>/', views.likes_publicaciones, name='like-publicaciones'),
     path('panel-admin/', views.panel_administracion, name='panel-admin'),
+    
+    path('editar-comentario/<str:pk>/', views.editar_comentario, name='editar-comentario'),
+    path('eliminar-comentario/<str:pk>/', views.eliminar_comentario, name='eliminar-comentario')
 ]

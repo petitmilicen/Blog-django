@@ -58,9 +58,14 @@
                     </div>
                   </form>
 
+                  <div>
+                    <p class="mb-0  text-center">¿Ya tienes cuenta? <a href="{% url 'logearse' %}" class="text-primary fw-bold">Logearse</a></p>
+                  </div>
+
                   {% if messages %}
                   {% for mensaje in messages %}
-                  {% if mensaje.tags == 'info' %}
+                    {% if mensaje.tags == 'info' %}
+                    <hr>
                     <div class="alert alert-danger" role="alert">
                       <p id="messages" style="text-align: center;"> {{ mensaje }} </p>
                     </div>
@@ -72,9 +77,6 @@
                   {% endfor %}
                   {% endif %}
 
-                  <div>
-                    <p class="mb-0  text-center">¿Ya tienes cuenta? <a href="{% url 'logearse' %}" class="text-primary fw-bold">Logearse</a></p>
-                  </div>
             </div>
           </div>
         </div>

@@ -150,6 +150,8 @@ def registrarse(request):
             
             messages.success(request, 'La cuenta fue creada para' + ' ' + usuario)
             return redirect('logearse')
+        else:
+            messages.info(request, 'Nombre o correo ya existente')
 
     context = {'form':formulario}
     return render(request, 'core/registrarse.html', context)
@@ -189,3 +191,28 @@ class PerfilUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('perfil', kwargs={'pk': self.kwargs['pk']})
+
+@user_passes_test(lambda user: user.is_staff, login_url=reverse_lazy('index'))
+def editar_comentario(request, pk):
+    comentario = Comentario.objects.get(id=pk)
+    form = ComentarioForm(instance=comentario)
+
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST, instance=comentario)
+        if form.is_valid():
+            form.save()
+            return redirect('panel-admin')
+
+    context = {'form': form, 'comentario':comentario}
+    return render(request, 'core/editar-comentario.html', context)
+
+@user_passes_test(lambda user: user.is_staff, login_url=reverse_lazy('index'))
+def eliminar_comentario(request, pk):
+    comentario = Comentario.objects.get(id=pk)
+    if request.method == 'POST':
+        
+        comentario.delete()
+        return redirect('panel-admin')
+
+    context = {'comentario': comentario}
+    return render(request, 'core/eliminar-comentario.html', context)
