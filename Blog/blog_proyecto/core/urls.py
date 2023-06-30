@@ -1,8 +1,8 @@
 from django.urls import path
 from core.views import *
 from . import views
-from django.conf import settings
-from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+from .forms import UserPasswordResetForm, SetPasswordFormForm
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -21,7 +21,30 @@ urlpatterns = [
     path('like-publicacion/<str:pk>/', views.likes_publicacion, name='like-publicacion'),
     path('like-publicaciones/<str:pk>/', views.likes_publicaciones, name='like-publicaciones'),
     path('panel-admin/', views.panel_administracion, name='panel-admin'),
-    
     path('editar-comentario/<str:pk>/', views.editar_comentario, name='editar-comentario'),
-    path('eliminar-comentario/<str:pk>/', views.eliminar_comentario, name='eliminar-comentario')
+    path('eliminar-comentario/<str:pk>/', views.eliminar_comentario, name='eliminar-comentario'),
+    
+    #Recuperar contrasena, solo sirve localmente
+    path('recuperar-contrasena/',
+        auth_views.PasswordResetView.as_view(
+        template_name='core/recuperar-contrasena.html',
+        form_class=UserPasswordResetForm),
+        name="recuperar-contrasena"),
+    
+    path('recuperar-contrasena-enviado/',
+        auth_views.PasswordResetDoneView.as_view(
+        template_name='core/recuperar-contrasena-enviado.html'),
+        name='password_reset_done'),
+    
+    path('recuperar/<uidb64>/<token>/',
+        auth_views.PasswordResetConfirmView.as_view(
+        template_name='core/recuperar-contrasena-formulario.html',
+        form_class=SetPasswordFormForm),
+        name="password_reset_confirm"),
+    
+    path('recuperar-contrasena-completo/',
+        auth_views.PasswordResetCompleteView.as_view(
+        template_name='core/logearse.html'),
+        name='password_reset_complete')
+    
 ]

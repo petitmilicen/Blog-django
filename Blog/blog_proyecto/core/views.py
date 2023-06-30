@@ -11,7 +11,7 @@ from django.views.generic.edit import UpdateView
 from django.contrib.auth.models import User
 from .forms import EditarPerfilForm
 from django.urls import reverse_lazy
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def index(request):
     publicaciones = Publicacion.objects.order_by('-fecha_creacion')[:3]
@@ -183,11 +183,18 @@ def perfil(request, pk):
     context = {'usuario':usuario, 'publicaciones':publicaciones, 'comentarios':comentarios}
     return render(request, 'core/perfil.html', context)
 
+
 #---Editar Perfil
-class PerfilUpdateView(UpdateView):
+class PerfilUpdateView(LoginRequiredMixin, UpdateView):
     model = Usuario
     form_class = EditarPerfilForm
     template_name = 'core/editar-perfil.html'
+    
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated and self.request.user.pk == self.kwargs['pk']:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect('index')
 
     def get_success_url(self):
         return reverse_lazy('perfil', kwargs={'pk': self.kwargs['pk']})
