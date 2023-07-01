@@ -26,7 +26,7 @@ class Publicacion(models.Model):
     autor = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=100)
     categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
-    imagen = models.ImageField()
+    imagen = models.ImageField(default=None)
     texto = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(Usuario, related_name='blog_publicaciones', blank=True)

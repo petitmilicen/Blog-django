@@ -58,7 +58,9 @@
 
                     <div class="d-flex flex-wrap align-items-start">
                         <div class="pr-3">
-                            <img class="img-thumbnail " src="{{ publicacion.imagen.url }}" alt="Imagen no disponible">
+                            {% if publicacion.imagen %}
+                            <img class="img-thumbnail" src="{{ publicacion.imagen.url }}" alt="Imagen no disponible">
+                            {% endif %}
                         </div>
                         <div>
                             <section class="mb-5" style="padding-top: 10px;">
