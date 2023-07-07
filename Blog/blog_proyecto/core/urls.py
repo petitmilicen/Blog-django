@@ -29,7 +29,8 @@ urlpatterns = [
         auth_views.PasswordResetView.as_view(
         template_name='core/recuperar-contrasena.html',
         form_class=UserPasswordResetForm,
-        email_template_name='core/password_reset_email.html'),
+        email_template_name='core/password_reset_email.html',
+        subject_template_name='core/password_reset_subject.txt'),
         name="recuperar-contrasena"),
     
     path('recuperar-contrasena-enviado/',
